@@ -37,8 +37,8 @@ const updateEvent = async (req, res) => {
         const event = await eventService.updateEvent(req.user, req.params.id, req.body);
         sendSuccess(res, event);
     } catch (err) {
-        const status = err.message === 'Forbidden' ? 403
-            : err.message === 'Event not found' ? 404
+        const status = err.message.includes('Access denied') ? 403
+            : err.message.includes('does not exist') ? 404
             : 400;
         sendError(res, err.message, status);
     }
@@ -49,8 +49,8 @@ const deleteEvent = async (req, res) => {
         const event = await eventService.deleteEvent(req.user, req.params.id);
         sendSuccess(res, event);
     } catch (err) {
-        const status = err.message === 'Forbidden' ? 403
-            : err.message === 'Event not found' ? 404
+        const status = err.message.includes('Access denied') ? 403
+            : err.message.includes('does not exist') ? 404
             : 400;
         sendError(res, err.message, status);
     }

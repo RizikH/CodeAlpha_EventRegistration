@@ -20,7 +20,7 @@ const registerForEvent = async (req, res) => {
     } catch (err) {
         const status = getStatus(err.message, {
             'already registered': 409,
-            'own event': 403,
+            'you created': 403,
             'does not exist': 404,
         });
         sendError(res, err.message, status);

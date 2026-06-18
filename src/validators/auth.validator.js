@@ -29,8 +29,9 @@ const loginSchema = Joi.object({
 // --- Middleware ---
 
 const validateRegister = (req, res, next) => {
-    const { error } = registerSchema.validate(req.body, { abortEarly: false });
+    const { error, value } = registerSchema.validate(req.body, { abortEarly: false });
     if (error) return sendError(res, error.details.map(d => d.message).join(', '), 422);
+    req.body = value; // Apply Joi defaults (e.g. role → 'attendee')
     next();
 };
 
